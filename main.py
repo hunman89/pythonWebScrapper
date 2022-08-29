@@ -1,8 +1,16 @@
-def tax_calc(money):
-    return money * 0.35
+from random import randint
 
-def pay_tax(tax):
-    print("thank you for paying", tax)
+print("Welcome to Casino")
+answer = randint(1,50)
 
-to_pay = tax_calc(1500000000)
-pay_tax(to_pay)
+playing = True
+
+while playing:
+    user_choice = int(input('Choose number (1 - 50):'))
+    if user_choice == answer:
+        print('Congtraturation!!')
+        playing = False
+    if user_choice < answer:
+        print('up')
+    if user_choice > answer:
+        print('down')
