@@ -1,16 +1,15 @@
-from random import randint
+from requests import get
 
-print("Welcome to Casino")
-answer = randint(1,50)
+websites = [
+    "google.com",
+    "airbnb.com",
+    "https://twitter.com",
+    "facebook.com",
+    "https://tiktok.com"
+]
 
-playing = True
-
-while playing:
-    user_choice = int(input('Choose number (1 - 50):'))
-    if user_choice == answer:
-        print('Congtraturation!!')
-        playing = False
-    if user_choice < answer:
-        print('up')
-    if user_choice > answer:
-        print('down')
+for website in websites:
+    if not website.startswith("https://"):
+        website = f'https://{website}'
+    response = get(website)
+    print(response.status_code)
