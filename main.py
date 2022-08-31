@@ -1,29 +1,21 @@
 from requests import get
 from bs4 import BeautifulSoup
+from extractor.wwr import extract_wwr_jobs
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
-base_url = 'https://weworkremotely.com/remote-jobs/search?utf8=✓&term='
-search_term = 'python'
-response = get(f'{base_url}{search_term}')
+options = Options()
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 
-if response.status_code != 200:
-    print('request error')
-else:    
-    results = []
-    soup = BeautifulSoup(response.text, 'html.parser')
-    jobs = soup.find_all('section', class_='jobs')
-    for job_sections in jobs:
-        job_posts = job_sections.find_all('li')
-        job_posts.pop(-1)
-        for job_post in job_posts:
-            anchors = job_post.find_all('a')
-            anchor = anchors[1]
-            link = anchor['href']
-            company, kind, region = anchor.find_all('span', class_='company')
-            title = anchor.find('span', class_='title')
-            job_data = {
-                'company' : company.string,
-                'region' : region.string,
-                'title' : title.string
-            }
-            results.append(job_data)
-    print(results)
+browser = webdriver.Chrome(options=options)
+
+browser.get('https://kr.indeed.com/jobs?q=python&limit=50')
+
+soup = BeautifulSoup(browser.page_source, 'html.parser')
+job_list = soup.find('ul', class_='jobsearch-ResultsList')
+jobs = job_list.find_all('li', recursive=False)
+
+for job in jobs:
+    print(job)
+    print('///////////')
