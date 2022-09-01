@@ -23,7 +23,7 @@ def extract_wwr_jobs(keyword):
                 job_data = {
                     'link' : f'https://weworkremotely.com{link}',
                     'company' : company.string,
-                    'region' : region.string,
+                    'location' : region.string,
                     'title' : title.string
                 }
                 results.append(job_data)
