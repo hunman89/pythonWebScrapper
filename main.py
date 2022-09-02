@@ -1,18 +1,13 @@
-from extractor.indeed import extract_indeed_jobs
-from extractor.wwr import extract_wwr_jobs
+from flask import Flask, render_template
 
-keyword = input("What do you search?")
+app = Flask("Job Scrapper")
 
-indeed = []
-wwr = []
-indeed = extract_indeed_jobs(keyword)
-wwr = extract_wwr_jobs(keyword)
-jobs = indeed + wwr
+@app.route("/")
+def home():
+    return render_template("home.html")
 
-file = open(f'{keyword}.csv', 'w')
-file.write('Position,Company,Location,URL\n')
+@app.route("/search")
+def search():
+    return render_template("search.html")
 
-for job in jobs:
-    file.write(f"{job['title']},{job['company']},{job['location']},{job['link']}\n")
-
-file.close()
+app.run("0.0.0.0")
