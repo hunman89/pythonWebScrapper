@@ -4,7 +4,7 @@ from extractor.rok import extract_rok_jobs
 
 def find_job_by_provider(provider, keyword):
     jobs = []
-    if provider == "weworkremote":
+    if provider == "weworkremotely":
         jobs = extract_wwr_jobs(keyword)
     if provider == "remoteok":
         jobs = extract_rok_jobs(keyword)
