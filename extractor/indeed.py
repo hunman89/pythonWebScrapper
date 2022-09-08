@@ -44,6 +44,6 @@ def get_jobs(browser, keyword, page, results):
                         'link' : f'https://kr.indeed.com{link}',
                         'company' : company.string.replace(",", " "),
                         'location' : location.string.replace(",", " "),
-                        'title' : title.replace(",", " ")
+                        'position' : title.replace(",", " ")
                     }
             results.append(job_data)

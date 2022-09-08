@@ -1,6 +1,7 @@
 from flask import Flask, render_template,request,redirect,send_file
 from extractor.indeed import extract_indeed_jobs
 from extractor.wwr import extract_wwr_jobs
+from extractor.rok import extract_rok_jobs
 from file import save_to_file
 
 app = Flask("Job Scrapper")
@@ -22,7 +23,8 @@ def search():
         indeed = []
         wwr = extract_wwr_jobs(keyword)
         # indeed = extract_indeed_jobs(keyword)
-        jobs = wwr + indeed
+        rok = extract_rok_jobs(keyword)
+        jobs = wwr + indeed + rok
         db[keyword] = jobs
     return render_template("search.html", keyword = keyword, jobs=jobs)
 
