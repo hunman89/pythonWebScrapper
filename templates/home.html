@@ -13,6 +13,21 @@
     <span>What skill do you want a search?</span>
     <form action="/search">
         <input type="text" name="keyword" placeholder="Write keyword please"/>
+        <fieldset>
+            <legend>Provider</legend>
+            <label for="all">
+                <input type="radio" id="all" name="provider" value="all" checked>
+                All
+            </label>
+            <label for="weworkremote">
+                <input type="radio" id="weworkremote" name="provider" value="weworkremote">
+                WeWorkRemotely
+            </label>
+            <label for="remoteok">
+                <input type="radio" id="remoteok" name="provider" value="remoteok">
+                RemoteOk
+            </label>
+        </fieldset>
         <button>Search</button>
     </form>
     </main>

@@ -10,8 +10,15 @@
 <body>
     <main class="container">
         <hgroup>
-            <h1>Search Result for "{{keyword}}"</h1>
-            <a target="_blank" href="/export?keyword={{keyword}}">Export to file</a>
+            <h1>Search Result for <mark>{{keyword}}</mark> from <i>{{provider}}</i></h1>
+            <nav>
+                <ul>
+                    <a target="_blank" href="/export?keyword={{keyword}}">Export to file</a>
+                </ul>
+                <ul>
+                    <a target="_blank" href="/">Get Back to Search</a>
+                </ul>
+            </nav>
         </hgroup>
         <table role="grid">
             <thead>

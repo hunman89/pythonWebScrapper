@@ -1,7 +1,5 @@
 from flask import Flask, render_template,request,redirect,send_file
-from extractor.indeed import extract_indeed_jobs
-from extractor.wwr import extract_wwr_jobs
-from extractor.rok import extract_rok_jobs
+from util import find_job_by_provider, rap_data
 from file import save_to_file
 
 app = Flask("Job Scrapper")
@@ -15,18 +13,19 @@ def home():
 @app.route("/search")
 def search():
     keyword = request.args.get("keyword")
+    provider = request.args.get("provider")
     if keyword == None:
         return redirect("/")
     if keyword in db:
-        jobs = db[keyword]
+        if provider in db[keyword]:
+            jobs = db[keyword][provider]
+        else:
+            jobs = find_job_by_provider(provider, keyword)
+            db[keyword] = rap_data(provider, jobs, db[keyword])
     else:
-        indeed = []
-        wwr = extract_wwr_jobs(keyword)
-        # indeed = extract_indeed_jobs(keyword)
-        rok = extract_rok_jobs(keyword)
-        jobs = wwr + indeed + rok
-        db[keyword] = jobs
-    return render_template("search.html", keyword = keyword, jobs=jobs)
+        jobs = find_job_by_provider(provider, keyword)
+        db[keyword] = rap_data(provider, jobs, {})
+    return render_template("search.html", keyword = keyword.capitalize(), jobs=jobs, provider=provider.capitalize())
 
 @app.route("/export")
 def export():
@@ -37,4 +36,5 @@ def export():
         return redirect(f"/search?keyword={keyword}")
     save_to_file(keyword, db[keyword])
     return send_file(f"{keyword}.csv", as_attachment=True)
+    
 app.run("0.0.0.0")
